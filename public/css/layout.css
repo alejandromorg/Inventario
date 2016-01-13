@@ -1,0 +1,123 @@
+.row{
+	  /* red with opacity */
+	border-style: solid;
+	border-width: thin;
+	border-radius: 14px;
+	margin:5px 0;
+	padding: 5px 0;
+}
+
+.panel{
+	/*margin   : 5px 0;
+	padding : 5px 5px 5px 5px;*/
+	padding : 0 0;
+}
+
+body {
+    /*margin      : 0;*/
+    padding     : 65px 0 0 /*50px*/ 0;
+    font-family : "Helvetica", "Arial";
+    font-size   : 14px;
+    /*line-height : 18px;
+    cursor      : default;*/
+}
+
+a {
+    color : #ef7c61;
+}
+
+textarea{
+	resize:none;
+}
+.error {
+    clear  : both;
+    float  : left;
+    margin : 5px 0;
+}
+
+.error {
+    color : #ef7c61;
+}
+
+.help-block {
+    float : left;
+    clear : left;
+}
+
+.form-group.has-error .help-block {
+    color : #ef7c61;
+}
+
+.assign {
+    padding : 10px 0 0 0;
+    line-height : 22px;
+}
+
+.checkbox, .assign {
+    float : left;
+    clear : left;
+}
+
+.checkbox input[type='checkbox'] {
+    margin : 0 10px 0 0;
+    float  : none;
+}
+
+.cell {
+    word-break: break-all;
+	
+}
+.tbl{
+	max-width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+    
+    /* Force table to not be like tables anymore */
+	#no-more-tables table, 
+	#no-more-tables thead, 
+	#no-more-tables tbody, 
+	#no-more-tables th, 
+	#no-more-tables td, 
+	#no-more-tables tr { 
+		display: block; 
+	}
+ 
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#no-more-tables tr { border: 1px solid #ccc; }
+ 
+	#no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		/*padding-left: 50%; */
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	/*#no-more-tables td:before { 
+		// Now like a table header 
+		position: absolute;
+		// Top/left values mimic padding 
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	
+	//Label the data
+	
+	#no-more-tables td:before { content: attr(data-title); }
+	*/
+}
