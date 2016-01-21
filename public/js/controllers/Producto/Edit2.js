@@ -1,42 +1,46 @@
 $(document).ready(function(){
-	
 	var errorStr = "Error Row: ";
 	$('form').submit(function(e){
 		
 		e.preventDefault();
 		errorStr = "";
 
-		var tr = $( '#EditTable tbody' ).children();
+		var tr = $( '#addTable tbody' ).children();
 		
 		$.each( tr, function( index, value ) {
-			
+
 			var index = value.id.slice(-1);
 
 			
 			var formData = new FormData();
 			
-			formData.append( "key", $("#field1_txt_1").val()); //key is always field 1 hidden or not
-			
+
 			var $cell = $("#tr_"+index).children();
 			var emptycell = true;
 			$cell.each(function( ) {
 				
-				
-				var $field = $( this ).children().eq(0);
-				alert( $("#"+ $field.attr('name')).val());
-				formData.append( $field.attr('name'), $("#"+ $field.attr('name')).val());
 
+				var $field = $( this ).children().eq(0);
+				formData.append( $field.attr('name'), $("#"+ $field.attr('name')).val());
+				//alert($("#"+ $field.attr('name')).val());
 			});	
 			if( $("#field2_txt_"+index).val() || $("#field3_txt_"+index).val() || $("#field5_txt_"+index).val()){
 				emptycell = false;
-
+				//alert ($("#field2_txt_"+index).val()+ " "+emptycell+ " ");
 			}
+				
+			/*formData.append('field2_txt_'+index, $("#field2_txt_"+index).val());
+			formData.append('field3_txt_'+index, $("#field3_txt_"+index).val());
+			formData.append('field4_txt_'+index, $("#field4_txt_"+index).val());
+			formData.append('field5_txt_'+index, $("#field5_txt_"+index).val());
+			formData.append('field6_txt_'+index, $("#field6_txt_"+index).val());*/
+
 			
 			formData.append('index', index);
 			
 			
 			$.ajax({
-				url:'edit?ID_INVENTARIO='+$("#field1_txt_"+index).val(),
+				url:'add',
 				method:'post',
 				processData: false,
 				contentType: false,
@@ -115,3 +119,18 @@ $(document).ready(function(){
 		});//for
 	});
 });	
+var row = 0;
+function addrow($row) {
+
+	//var rowCount = $('#addTable tbody tr').length;
+	row ++;
+	var rowCount = row;
+
+	$.post("addrow",
+    {
+        linenumber: rowCount
+    },
+    function(data, status){
+		$("#TableBody").append(  data  );
+    });
+}

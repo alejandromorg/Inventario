@@ -216,10 +216,18 @@ Form::macro("columnEdit", function($options)
     {
         $type = $options["type"];
     }
+
 	$name = '';
     if (!empty($options["name"]))
     {
         $name = $options["name"];
+    }
+	//die(var_dump($options));
+	$id = '';
+    if (!empty($options["id"]))
+    {
+        $id = $options["id"];
+
     }
     $label = "";
     if (!empty($options["label"]))
@@ -253,7 +261,8 @@ Form::macro("columnEdit", function($options)
     }
     $parameters = [
         "class"       => "form-control" . $class,
-        "placeholder" => $placeholder
+        "placeholder" => $placeholder,
+		"id"				=>	$id
     ];
     $error = "";
     if (!empty($options["form"]))

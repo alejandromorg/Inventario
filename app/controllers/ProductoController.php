@@ -179,8 +179,8 @@ class ProductoController extends Controller
 		//}
 /////////////////////////////////////////////////////////////
 	
-		$Objnew 		= 		new Producto();		
-        $keyValue    	= 		Input::get($this->key);		
+		$Objnew 		= 	new Producto();		
+        $keyValue    	= 	Input::get($this->key);		
 		$object 		= 	Producto::findOrFail($keyValue);
         $url   			= 	URL::full();
 		//$FieldsnameHelper = $this->FieldsName;
@@ -197,8 +197,7 @@ class ProductoController extends Controller
 			
 				$new = Input::all();
 				if ($object->validate($i,$new,2))
-				{
-					
+				{	
 
 	
 					$object[$object::$FieldsName[Producto::$FieldsOrderEdit['2']]]		= 	Input::get($this->FieldsEdit['2']['name'].$xi);
@@ -213,12 +212,14 @@ class ProductoController extends Controller
 					//die(var_dump($object));
 					return Redirect::route($this->routeIndex);
 				}
-				return Redirect::to($url)->withInput([
+				//die(var_dump($Objnew)." -------------------");
+				return Response::json(['fehler'=>true,'success'=>true, 'error' => $object->errors()->toArray(),'key'=>$keyValue]);	
+				/*return Redirect::to($url)->withInput([
 					"key"   		=> 	Input::get($this->key),
 					"object"     	=> 	$object,
-					"errors" 		=> 	$Objnew->getErrors(),
+					"errors" 		=> 	$object->errors(),
 					"url"    		=> 	$url
-				]);
+				]);*/
 
 			}
 		
