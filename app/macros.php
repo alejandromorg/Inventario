@@ -326,7 +326,7 @@ Form::macro("columnEdit", function($options)
         case "checkbox":
         {
             $markup .= '<td class="cell col-sm-'.$contentsize.'">';
-            $markup .= Form::checkbox($name, true, (boolean) $value);
+            $markup .= Form::checkbox($name, true, (boolean) $value,  $parameters);
             $markup .= '</td>'; 
             break;
         }
@@ -341,7 +341,7 @@ Form::macro("columnEdit", function($options)
 			$markup .= '<td class="cell col-sm-'.$contentsize;
 			$markup .= ($error ? " has-error" : "");
 			$markup .= '">';
-            $markup .= Form::select($name,$routes,$value);
+            $markup .= Form::select($name,$routes,$value, $parameters);
 			$markup .= '</td>';     			
             break;
         }

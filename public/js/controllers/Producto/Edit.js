@@ -23,7 +23,7 @@ $(document).ready(function(){
 				
 				
 				var $field = $( this ).children().eq(0);
-				alert( $("#"+ $field.attr('name')).val());
+				//alert( $("#"+ $field.attr('name')).val());
 				formData.append( $field.attr('name'), $("#"+ $field.attr('name')).val());
 
 			});	
@@ -47,6 +47,7 @@ $(document).ready(function(){
 					
 					errorStr = errorStr+data.iddelrow+" ";
 					
+					
 					if(!data.fehler){
 						
 						
@@ -55,16 +56,17 @@ $(document).ready(function(){
 							$('#errorLBL').text("");
 							$('#errorLBLdiv').removeClass( "alert alert-danger" );
 							
-							if($('#tr_'+data.iddelrow).siblings().length == 0){
+							$(location).attr('href','/producto');
+							/*if($('#tr_'+data.iddelrow).siblings().length == 0){
 								addrow();
-							}
-							$('#tr_'+data.iddelrow).remove();
+							}*/
+							//$('#tr_'+data.iddelrow).remove();
 
 						}else{
 
 								if(emptycell){
 									//alert (emptycell);
-									$('#tr_'+data.iddelrow).remove();
+									//$('#tr_'+data.iddelrow).remove();
 								}else{
 									$('#tr_'+data.iddelrow).children().removeClass( "has-error" );
 									$.each( data.error, function( ind, value ) {
@@ -83,10 +85,10 @@ $(document).ready(function(){
 						
 							if(emptycell){
 								
-								if($('#tr_'+data.iddelrow).siblings().length == 0){
+							/*	if($('#tr_'+data.iddelrow).siblings().length == 0){
 									addrow();
 								}
-								$('#tr_'+data.iddelrow).remove();
+								$('#tr_'+data.iddelrow).remove();*/
 
 							}else{
 								$('#tr_'+data.iddelrow).children().removeClass( "has-error" );
@@ -94,8 +96,7 @@ $(document).ready(function(){
 								$.each( data.error, function( ind, value ) {
 
 										errorStr = errorStr +" "+ value +" ";
-										$( '#'+ind).parent().addClass( "has-error" );
-										
+										$( '#'+ind).parent().addClass( "has-error" );					
 
 								});
 								$('#errorLBL').text(errorStr);

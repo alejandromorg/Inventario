@@ -210,7 +210,8 @@ class ProductoController extends Controller
 					$object->save();			
 					
 					//die(var_dump($object));
-					return Redirect::route($this->routeIndex);
+					return Response::json(['fehler'=>false,'success'=>true, 'key'=>$keyValue]);
+					//return Redirect::route($this->routeIndex);
 				}
 				//die(var_dump($Objnew)." -------------------");
 				return Response::json(['fehler'=>true,'success'=>true, 'error' => $object->errors()->toArray(),'key'=>$keyValue]);	
