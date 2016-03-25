@@ -10,12 +10,12 @@
 @section("content")
 
 	<?php 
-			$field1 = $FieldsCreate['1'];
-			$field2 = $FieldsCreate['2'];
-			$field3 = $FieldsCreate['3'];
-			$field4 = $FieldsCreate['4'];	
-			$field5 = $FieldsCreate['5'];	
-			$field6 = $FieldsCreate['6'];	
+			$field1 = $FieldsAdd['1'];
+			$field2 = $FieldsAdd['2'];
+			$field3 = $FieldsAdd['3'];
+			$field4 = $FieldsAdd['4'];	
+			$field5 = $FieldsAdd['5'];	
+			$field6 = $FieldsAdd['6'];	
 
 	?>
 	

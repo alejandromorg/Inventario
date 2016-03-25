@@ -4,169 +4,147 @@ use Illuminate\Support\MessageBag;
 
 class ProductoController extends Controller
 {
-	
-	private $module;
-	private $routeIndex;	
+	//Nombre del modulo
+	private $module;	
+	//INDEX Route
+	private $routeIndex;
+	//ADD Route	
 	private $routeAdd;
+	//Edit Route
 	private $routeEdit;
 	
+	//Primary Key
 	private $key;
-	private $FieldsName;
-		
-	private $FieldsCreate;
+
+	//Array con las propiedades de los campos para la creacion. Route: /add
+	private $FieldsAdd;
+	
+	//Array con las propiedades de los campos para la edicion. Route: /edit 
 	private $FieldsEdit;
-	private $rutasValidas;
-	private $addForm;
+
+	//Contiene el codigo HTML para generar una nueva fila para la creacion. Route: /add
 	private $addrow;
 	
-	public function __construct(){
-		
-		$this->module 			= "producto";
-		$this->routeIndex 		= $this->module."/index";	
-		$this->routeAdd 		= $this->module."/add";
-		$this->routeEdit 		= $this->module."/edit";
-		
-		$this->key = Producto::$FieldsName[1];
-		
-		$size = 1;		
-		$indexCreate = 1;		
-		$this->FieldsCreate =  array($indexCreate			=>	array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'text','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>$size));
-		
-		$indexCreate = 2;
-		$this->FieldsCreate[$indexCreate] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'text','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>$size);
-		
-		$indexCreate = 3;
-		$this->FieldsCreate[$indexCreate] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'text','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>$size);
-		
-		$indexCreate = 4;
-		$this->FieldsCreate[$indexCreate] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'select','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' ,'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>'1','sizend'=>$size);
-		
-		$indexCreate = 5;
-		$this->FieldsCreate[$indexCreate] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'text','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>$size);
-		
-		$indexCreate = 6;
-		$this->FieldsCreate[$indexCreate] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]],'type' =>'checkbox','name' => 'field'.$indexCreate.'_txt_', 'id' => 'field'.$indexCreate.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexCreate]]).'placeholder','size'=>$size);
-
-		
-			
-		$size = 1;		
-		$indexEdit = 1;		
-		$this->FieldsEdit =  array($indexEdit			=>	array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'text','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>$size));
-		
-		$indexEdit = 2;
-		$this->FieldsEdit[$indexEdit] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'text','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>$size);
-		
-		$indexEdit = 3;
-		$this->FieldsEdit[$indexEdit] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'text','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>$size);
-		
-		$indexEdit = 4;
-		$this->FieldsEdit[$indexEdit] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'select','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' ,'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>'1','sizend'=>$size);
-		
-		$indexEdit = 5;
-		$this->FieldsEdit[$indexEdit] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'text','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>$size);
-		
-		$indexEdit = 6;
-		$this->FieldsEdit[$indexEdit] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]],'type' =>'checkbox','name' => 'field'.$indexEdit.'_txt_', 'id' => 'field'.$indexEdit.'_txt_' , 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderCreate[$indexEdit]]).'placeholder','size'=>$size);
-		
-		
-		$index = 1;
-		$this->FieldsIndex =  array( $index			=>	array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'text','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'placeholder','size'=>$size));
-		
-		$index = 2;
-		$this->FieldsIndex[$index] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'text','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'placeholder','size'=>$size);
-		
-		$index = 3;
-		$this->FieldsIndex[$index] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'text','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'placeholder','size'=>$size);
-
-		$index = 4;
-		$this->FieldsIndex[$index] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'text','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'placeholder','size'=>$size);
-
-		$index = 5;
-		$this->FieldsIndex[$index] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'text','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]), 'placeholder'=>$this->module.".".strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'placeholder','size'=>$size);
-
-		$index = 6;		
-		$this->FieldsIndex[$index] = array( 'field' => Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]],'type' =>'checkbox','name' => strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]).'_txt_', 'label'=>$this->module.'.'.strtolower(Producto::$FieldsName[Producto::$FieldsOrderIndex[$index]]),'size'=>$size);
-
+	//Se crea un objeto del modelo
+	private $newObj;
 	
+	//ProductoController - Rutas de inventario
+	private $rutasValidas;
+	
+	// Modelo - Nombres de los campos.
+	private $FieldsName;
+	
+	
+	public function __construct(){
+
+		$this->newObj = new Producto();
+		
+		$this->key 					= 	$this->newObj->getPrimaryKey();
+		$this->FieldsName 			= 	$this->newObj->getFieldsName();
+		
+		$this->module 		= 	$this->newObj->getModule();
+		$this->routeIndex 	= 	$this->module."/index";	
+		$this->routeAdd 	= 	$this->module."/add";
+		$this->routeEdit 	= 	$this->module."/edit";
+		
+		$this->FieldsIndex = $this->newObj->getFieldsIndex();
+		$this->FieldsAdd = $this->newObj->getFieldsAdd();
+			
+		
+		//ProductoController - Query para obtener las rutas de inventario
 		$this->getRuta();
 	
-	}	
+	}
+	//Metodo cuando se carga la pagina: /
     public function indexAction(){	
-
+		
+		//Se cargan todos los productos
 		$records = Producto::queryAll();
-
+		// Se crea el objeto que se le pasa a la vista
 		$object = [
             "records" 					=> 	$records,
 			"FieldsIndex"				=>	$this->FieldsIndex,
 			"module" 					=> 	$this->module,
 			"key"						=> 	$this->key
         ];
-
+		//Se crea la vista index - definida en index.blade.php
         return View::make($this->routeIndex, $object);
 
     }
+	//Metodo cuando se carga la pagina: /add
 	public function addAction(){
 		
-	try{		
-			// create a new model instance     
-	////////////////////////////////////////////////////////////
+		try{
+			//indice de la fila que se va a insertar
 			$xi = 0;
+			
+			//Se asigna en - add.js
 			if(Input::has('index')) {
 				$xi = Input::get("index");
 			}
-	/////////////////////////////////////////////////////////////
 			
-			$Objnew = new Producto();
-			
-			if(Input::get($this->FieldsCreate['6']['name'].$xi) == true) { //disponible
-				$disponiblechk = Input::get($this->FieldsCreate['6']['name'].$xi);
+			//ProductoController - Escoger el valor correcto del elemento Checkbox
+			if(Input::get($this->FieldsAdd['6']['name'].$xi) == true) { //disponible
+				$disponiblechk = Input::get($this->FieldsAdd['6']['name'].$xi);
 			}else{
 				$disponiblechk = false;
 			}
 
-
-			if ($Objnew->isPosted())
+			
+			if ($this->newObj->isPosted())
 			{
-					$new = Input::all();				
-					// attempt validation
-					if ($Objnew->validate($xi,$new,1))//add
-					{
-
-							$object  = Producto::create([
-
-								Producto::$FieldsName[Producto::$FieldsOrderCreate['2']]		=> 	Input::get($this->FieldsCreate['2']['name'].$xi),
-								Producto::$FieldsName[Producto::$FieldsOrderCreate['3']]		=> 	Input::get($this->FieldsCreate['3']['name'].$xi),
-								Producto::$FieldsName[Producto::$FieldsOrderCreate['4']]		=> 	Input::get($this->FieldsCreate['4']['name'].$xi),
-								Producto::$FieldsName[Producto::$FieldsOrderCreate['5']]		=> 	Input::get($this->FieldsCreate['5']['name'].$xi),
-								Producto::$FieldsName[Producto::$FieldsOrderCreate['6']]		=> 	$disponiblechk						
-								
+				//get all the inputs
+				$new = Input::all();				
+				// attempt validation
+				die("posted");
+				if ($this->newObj->validate($xi,$new,1))//add
+				{
+					//Nuevo objeto
+					$object  = 	Producto::create([
+								$this->FieldsAdd['2']['field']	=> 	Input::get($this->FieldsAdd['2']['name'].$xi),
+								$this->FieldsAdd['3']['field']	=> 	Input::get($this->FieldsAdd['3']['name'].$xi),
+								$this->FieldsAdd['4']['field']	=> 	Input::get($this->FieldsAdd['4']['name'].$xi),
+								$this->FieldsAdd['5']['field']	=> 	Input::get($this->FieldsAdd['5']['name'].$xi),
+								$this->FieldsAdd['6']['field']	=> 	$disponiblechk						
 							]);	
-						return Response::json(['fehler'=>false,'success' => true,'iddelrow'=>Input::get('index')]);
-					}
-					else
-					{
-						//die();
-						$this->errors = $Objnew->errors();
-						$this->addrow = $this->addrowAction();
-						return Response::json(['fehler'=>true,'success'=>true, 'error' => $this->errors->toArray(),'iddelrow'=>Input::get('index')]);		
-					}				
+						//Creacion exitosa
+						return Response::json([
+							'fehler'	=>	false,
+							'success' 	=> 	true,
+							'iddelrow'	=>	Input::get('index')
+						]);
+				}
+				else{
+					//errores
+					$this->errors 	= $this->newObj->getErrors();
+					$this->addrow 	= $this->addrowAction();
+					return Response::json([
+						'fehler'	=>	true,
+						'success'	=>	true,
+						'error' 	=> 	$this->errors->toArray(),
+						'iddelrow'	=>	Input::get('index')
+					]);		
+				}				
 			}
 		} catch (\Illuminate\Database\QueryException $e) {
+			//Errores de SQL
 			$this->errors[0] = "SQL Error: " . $e->getMessage() . "\n";
-			return Response::json(['fehler'=>true,'success'=>true, 'error' => $this->errors,'iddelrow'=>Input::get('index')]);	
+			return Response::json([
+				'fehler'=>true,
+				'success'=>true,
+				'error' => $this->errors,
+				'iddelrow'=>Input::get('index')
+			]);	
 		}
 
-		
+		//Anadir una fila
 		$this->addrow = $this->addrowAction();
-		
-		$object;
-		$xi=0;
+		//Crear vista
         return View::make($this->routeAdd, [
-
-			"row"								=> 	$this->addrow,
-			"FieldsCreate"						=> 	$this->FieldsCreate,
-			"module" 							=> 	$this->module,	
-			"key"								=> 	$this->key
+			"row"					=> 	$this->addrow,
+			"FieldsAdd"			=> 	$this->FieldsAdd,
+			"module" 				=> 	$this->module,	
+			"key"					=> 	$this->key
         ]);
     }
 	public function editAction(){
@@ -215,12 +193,12 @@ class ProductoController extends Controller
 				}
 				//die(var_dump($Objnew)." -------------------");
 				return Response::json(['fehler'=>true,'success'=>true, 'error' => $object->errors()->toArray(),'key'=>$keyValue]);	
-				/*return Redirect::to($url)->withInput([
-					"key"   		=> 	Input::get($this->key),
-					"object"     	=> 	$object,
-					"errors" 		=> 	$object->errors(),
-					"url"    		=> 	$url
-				]);*/
+				//return Redirect::to($url)->withInput([
+					//"key"   		=> 	Input::get($this->key),
+					//"object"     	=> 	$object,
+					//"errors" 		=> 	$object->errors(),
+					//"url"    		=> 	$url
+				//]);
 
 			}
 		
@@ -269,12 +247,12 @@ class ProductoController extends Controller
 			$linenumber = Input::get("linenumber");
 		}
 		
-		$field1 = $this->FieldsCreate['1'];
-		$field2 = $this->FieldsCreate['2'];
-		$field3 = $this->FieldsCreate['3'];
-		$field4 = $this->FieldsCreate['4'];
-		$field5 = $this->FieldsCreate['5'];
-		$field6 = $this->FieldsCreate['6'];
+		$field1 = $this->FieldsAdd['1'];
+		$field2 = $this->FieldsAdd['2'];
+		$field3 = $this->FieldsAdd['3'];
+		$field4 = $this->FieldsAdd['4'];
+		$field5 = $this->FieldsAdd['5'];
+		$field6 = $this->FieldsAdd['6'];
 
 
 		$addrow = 	"<tr id='tr_".$linenumber."'>";
@@ -340,8 +318,8 @@ class ProductoController extends Controller
         $url   = URL::full();
 		$FieldsnameHelper = $this->FieldsName;
 		
-		if(Input::get($this->FieldsCreate['6']['name'].'0') == true) { //disponible
-			$disponiblechk = Input::get($this->FieldsCreate['6']['name'].'0');
+		if(Input::get($this->FieldsAdd['6']['name'].'0') == true) { //disponible
+			$disponiblechk = Input::get($this->FieldsAdd['6']['name'].'0');
 		}else{
 			$disponiblechk = false;
 		}	

@@ -20,7 +20,7 @@ return array(
 	"id_inventario"        					=>	"ID INVENTARIO",
 	"id_venta"									=>	"ID VENTA",
 	"id_producto" 							=>	"ID PRODUCTO",
-	"id_ruta"									=>	"RUTA",
+	"ruta"									=>	"RUTA",
 	"nombre_producto"					=>	"PRODUCTO",
 	"disponible"								=> 	"ACT",
 	

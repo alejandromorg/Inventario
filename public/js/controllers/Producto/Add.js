@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	var errorStr = "Error Row: ";
+	//Se ejecuta cuando se salva el registro.
 	$('form').submit(function(e){
 		
 		e.preventDefault();
@@ -22,22 +23,13 @@ $(document).ready(function(){
 
 				var $field = $( this ).children().eq(0);
 				formData.append( $field.attr('name'), $("#"+ $field.attr('name')).val());
-				//alert($("#"+ $field.attr('name')).val());
+				
 			});	
 			if( $("#field2_txt_"+index).val() || $("#field3_txt_"+index).val() || $("#field5_txt_"+index).val()){
 				emptycell = false;
-				//alert ($("#field2_txt_"+index).val()+ " "+emptycell+ " ");
 			}
-				
-			/*formData.append('field2_txt_'+index, $("#field2_txt_"+index).val());
-			formData.append('field3_txt_'+index, $("#field3_txt_"+index).val());
-			formData.append('field4_txt_'+index, $("#field4_txt_"+index).val());
-			formData.append('field5_txt_'+index, $("#field5_txt_"+index).val());
-			formData.append('field6_txt_'+index, $("#field6_txt_"+index).val());*/
-
-			
+							
 			formData.append('index', index);
-			
 			
 			$.ajax({
 				url:'add',
@@ -50,9 +42,8 @@ $(document).ready(function(){
 				success:function(data){
 					
 					errorStr = errorStr+data.iddelrow+" ";
-					
-					if(!data.fehler){
-						
+					console.log(data);
+					if(!data.fehler){						
 						
 						if (data != null && data.success) {
 						
@@ -65,9 +56,9 @@ $(document).ready(function(){
 							$('#tr_'+data.iddelrow).remove();
 
 						}else{
-
+							
 								if(emptycell){
-									//alert (emptycell);
+	
 									$('#tr_'+data.iddelrow).remove();
 								}else{
 									$('#tr_'+data.iddelrow).children().removeClass( "has-error" );
@@ -84,7 +75,8 @@ $(document).ready(function(){
 						}
 						
 					}else{
-						
+						//alert("eroor id:"+data.iddelrow);
+						//console.log(data.error);
 							if(emptycell){
 								
 								if($('#tr_'+data.iddelrow).siblings().length == 0){
